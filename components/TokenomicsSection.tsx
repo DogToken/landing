@@ -1,29 +1,39 @@
-export default function TokenomicsSection() {
-  return (
-    <section id="tokenomics" className="mb-16">
-      <h2 className="text-3xl font-bold mb-4">Tokenomics</h2>
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2">Token Distribution</h3>
-          <ul className="list-disc list-inside">
-            <li>50% Public Sale</li>
-            <li>20% Liquidity Pool</li>
-            <li>15% Team and Development</li>
-            <li>10% Marketing</li>
-            <li>5% Community Rewards</li>
-          </ul>
-        </div>
-        <div className="bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2">Token Details</h3>
-          <ul className="list-disc list-inside">
-            <li>Total Supply: 1,000,000,000,000 $DOGSWAP</li>
-            <li>2% Transaction Fee (1% to holders, 1% to liquidity)</li>
-            <li>Anti-Whale Mechanism: Max wallet 2% of total supply</li>
-            <li>Liquidity Locked for 2 years</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  )
+import { FC } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface TokenomicsSectionProps {
+  totalSupply: string;
 }
 
+const TokenomicsSection: FC<TokenomicsSectionProps> = ({ totalSupply }) => (
+  <section id="tokenomics" className="w-full max-w-6xl mx-auto px-4 py-16">
+    <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Tokenomics</h2>
+    <div className="grid gap-6 md:grid-cols-2">
+      <Card>
+        <CardHeader>
+          <CardTitle>MintMe Details</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="list-disc list-inside">
+            <li>Distribution</li>
+            <li>Liquidity</li>
+          </ul>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Polygon Details</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ul className="list-disc list-inside">
+            <li>Total Supply: {totalSupply} $BONE</li>
+            <li>0% Transaction Fee</li>
+            <li>Fully Bridged Token</li>
+          </ul>
+        </CardContent>
+      </Card>
+    </div>
+  </section>
+);
+
+export default TokenomicsSection;
