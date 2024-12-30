@@ -13,7 +13,6 @@ import RoadmapSection from "@/components/RoadmapSection";
 export default function Home() {
   const [totalSupply, setTotalSupply] = useState("Loading...");
   const [burnedTokens, setBurnedTokens] = useState("Loading...");
-  const [liquidityLocked, setLiquidityLocked] = useState("Loading...");
 
   useEffect(() => {
     async function fetchBlockchainData() {
@@ -27,8 +26,6 @@ export default function Home() {
       const burnedTokens = await contract.balanceOf("0x000000000000000000000000000000000000dead");
       setBurnedTokens(parseFloat(ethers.utils.formatUnits(burnedTokens, 18)).toFixed(0));
 
-      const liquidityLocked = await contract.getLiquidityLocked();
-      setLiquidityLocked(parseFloat(ethers.utils.formatUnits(liquidityLocked, 18)).toFixed(0));
     }
 
     fetchBlockchainData();
@@ -38,8 +35,8 @@ export default function Home() {
     <div className="flex flex-col items-center bg-image">
       <WelcomeSection />
       <TokenomicsSection totalSupply={totalSupply} />
-      <TokenInfoSection totalSupply={totalSupply} burnedTokens={burnedTokens} liquidityLocked={liquidityLocked} />
       <RoadmapSection />
+      <TokenInfoSection totalSupply={totalSupply} burnedTokens={burnedTokens} />
       <section className="w-full max-w-6xl mx-auto px-4 py-16">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Join the Pack!</h2>
