@@ -399,17 +399,17 @@ export default function Home() {
   
       // Fetch total supply
       const totalSupply = await contract.totalSupply();
-      const formattedTotalSupply = parseFloat(ethers.utils.formatUnits(totalSupply, 18)).toFixed(4);
+      const formattedTotalSupply = parseFloat(ethers.utils.formatUnits(totalSupply, 18)).toFixed(0);
       setTotalSupply(formattedTotalSupply);
   
       // Fetch burned tokens (assuming you have a function to get this data)
       const burnedTokens = await contract.balanceOf("0x000000000000000000000000000000000000dead");
-      const formattedBurnedTokens = parseFloat(ethers.utils.formatUnits(burnedTokens, 18)).toFixed(4);
+      const formattedBurnedTokens = parseFloat(ethers.utils.formatUnits(burnedTokens, 18)).toFixed(0);
       setBurnedTokens(formattedBurnedTokens);
   
       // Fetch liquidity locked (assuming you have a function to get this data)
       const liquidityLocked = await contract.getLiquidityLocked();
-      const formattedLiquidityLocked = parseFloat(ethers.utils.formatUnits(liquidityLocked, 18)).toFixed(4);
+      const formattedLiquidityLocked = parseFloat(ethers.utils.formatUnits(liquidityLocked, 18)).toFixed(0);
       setLiquidityLocked(formattedLiquidityLocked);
     }
   
@@ -423,8 +423,8 @@ export default function Home() {
           Welcome to <span className="text-primary">DogSwap</span>
         </h1>
         <p className="max-w-[700px] text-muted-foreground md:text-xl mx-auto mb-8">
-          The cutest and most rewarding meme token in the crypto universe! 
-          Swap, earn, and join the pack!
+        Explore one of MintMe's top DeFi, delivering high-yielding, earning pools. 
+        Grow your MintMe experience on the DogSwap ecosystem and start earning today!
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button asChild size="lg">
@@ -445,18 +445,18 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
-              <CardTitle>Token Distribution</CardTitle>
+              <CardTitle>MintMe Details</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
-                <li>90% Dev Wallet</li>
-                <li>10% Liquidity Pool</li>
+                <li>Distribution</li>
+                <li>Liquidity</li>
               </ul>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Token Details</CardTitle>
+              <CardTitle>Polygon Details</CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
@@ -474,7 +474,7 @@ export default function Home() {
         <div className="grid gap-6 md:grid-cols-3">
           <Card>
             <CardHeader>
-              <CardTitle>Supply</CardTitle>
+              <CardTitle>Polygon Supply</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-4xl font-bold">{totalSupply}</p>
@@ -483,7 +483,7 @@ export default function Home() {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Burned</CardTitle>
+              <CardTitle>Polygon Burned</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <p className="text-4xl font-bold">{burnedTokens}</p>
@@ -513,23 +513,23 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
-                <li>Token Launch on PancakeSwap</li>
+                <li>Launch of DogSwap on MintMe</li>
                 <li>Website and Social Media Launch</li>
-                <li>Community Building</li>
+                <li>Creation of DogSwap dApp</li>
               </ul>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
-                <Rocket className="mr-2" /> Phase 2: Growth
+                <Rocket className="mr-2" /> Phase 2: DeFi
               </CardTitle>
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
-                <li>Marketing Campaigns</li>
-                <li>Partnerships with Influencers</li>
-                <li>Listing on CoinGecko and CoinMarketCap</li>
+                <li>Introduction of $BONE</li>
+                <li>Listing on MintMe.com</li>
+                <li>Increasing liquidity</li>
               </ul>
             </CardContent>
           </Card>
@@ -541,9 +541,9 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
-                <li>Launch of DogSwap DEX</li>
-                <li>NFT Collection Release</li>
-                <li>Charity Initiatives</li>
+                <li>Bridging to Polygon</li>
+                <li>Increasing Liquidity</li>
+                <li>Verification and Marketing</li>
               </ul>
             </CardContent>
           </Card>
@@ -555,7 +555,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Join the Pack!</h2>
           <Button asChild size="lg">
             <Link href="https://app.uniswap.org/explore/tokens/polygon/0xd97958fb10092107c2377afa2235d7728ca4bd90">
-              Buy $BONE <ArrowRight className="ml-2 h-4 w-4" />
+              Buy $BONE on Uniswap <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>

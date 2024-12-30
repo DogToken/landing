@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 py-12">
         <div className="flex flex-col md:flex-row md:justify-center items-center space-y-8 md:space-y-0 md:space-x-10">
           <div className="flex-shrink-0">
-            <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
+            <img src="/images/ui/logo.png" alt="Logo" className="h-12 w-auto" />
           </div>
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 text-center md:text-left">
             <div>
@@ -53,16 +53,16 @@ export default function Footer() {
             <div>
               <h3 className="text-lg font-semibold mb-4 text-white">Community</h3>
               <div className="flex justify-center md:justify-start space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://x.com/DogSwapDeFi" className="text-gray-400 hover:text-white">
                   <FaTwitter size={24} />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://t.me/DogSwapOfficial" className="text-gray-400 hover:text-white">
                   <FaTelegram size={24} />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://discord.gg/RSQZDGThfU" className="text-gray-400 hover:text-white">
                   <FaDiscord size={24} />
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white">
+                <a href="https://github.com/DogToken" className="text-gray-400 hover:text-white">
                   <FaGithub size={24} />
                 </a>
               </div>

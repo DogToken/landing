@@ -54,7 +54,6 @@
 }
 
 .bg-image {
-  background-image: url('/images/ui/bg.jpg');
   background-size: cover; /* Cover the entire section */
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
