@@ -1,20 +1,424 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowRight, Wallet, BarChart2, Shield, Coins, Rocket } from 'lucide-react'
-import Link from "next/link"
-import Image from "next/image"
+"use client";
+
+import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, Rocket } from 'lucide-react';
+import Link from "next/link";
+import Image from "next/image";
+
+const TOKEN_CONTRACT_ADDRESS = "0xd97958Fb10092107C2377afa2235d7728Ca4BD90";
+const TOKEN_CONTRACT_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_bridge",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "allowance",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "needed",
+				"type": "uint256"
+			}
+		],
+		"name": "ERC20InsufficientAllowance",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "balance",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "needed",
+				"type": "uint256"
+			}
+		],
+		"name": "ERC20InsufficientBalance",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "approver",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidApprover",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidReceiver",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidSender",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidSpender",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burnFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+
+const fetchEthers = async () => {
+  const ethers = await import('ethers');
+  return ethers;
+};
 
 export default function Home() {
+  const [totalSupply, setTotalSupply] = useState("Loading...");
+  const [burnedTokens, setBurnedTokens] = useState("Loading...");
+  const [liquidityLocked, setLiquidityLocked] = useState("Loading...");
+
+  useEffect(() => {
+    async function fetchBlockchainData() {
+      const { ethers } = await fetchEthers();
+      const provider = new ethers.providers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/4d3f7aeffe5f4a3cbdeb2e6dfa99db91");
+  
+      const contract = new ethers.Contract(TOKEN_CONTRACT_ADDRESS, TOKEN_CONTRACT_ABI, provider);
+  
+      // Fetch total supply
+      const totalSupply = await contract.totalSupply();
+      const formattedTotalSupply = parseFloat(ethers.utils.formatUnits(totalSupply, 18)).toFixed(4);
+      setTotalSupply(formattedTotalSupply);
+  
+      // Fetch burned tokens (assuming you have a function to get this data)
+      const burnedTokens = await contract.balanceOf("0x000000000000000000000000000000000000dead");
+      const formattedBurnedTokens = parseFloat(ethers.utils.formatUnits(burnedTokens, 18)).toFixed(4);
+      setBurnedTokens(formattedBurnedTokens);
+  
+      // Fetch liquidity locked (assuming you have a function to get this data)
+      const liquidityLocked = await contract.getLiquidityLocked();
+      const formattedLiquidityLocked = parseFloat(ethers.utils.formatUnits(liquidityLocked, 18)).toFixed(4);
+      setLiquidityLocked(formattedLiquidityLocked);
+    }
+  
+    fetchBlockchainData();
+  }, []);
+
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center bg-image">
       <section className="w-full max-w-6xl mx-auto px-4 py-24 text-center">
-        <Image
-          src="/dogswap-logo.svg"
-          alt="DogSwap Logo"
-          width={150}
-          height={150}
-          className="mx-auto mb-8"
-        />
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl mb-4">
           Welcome to <span className="text-primary">DogSwap</span>
         </h1>
@@ -35,7 +439,7 @@ export default function Home() {
           </Button>
         </div>
       </section>
-
+  
       <section id="tokenomics" className="w-full max-w-6xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Tokenomics</h2>
         <div className="grid gap-6 md:grid-cols-2">
@@ -45,11 +449,8 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
-                <li>50% Public Sale</li>
-                <li>20% Liquidity Pool</li>
-                <li>15% Team and Development</li>
-                <li>10% Marketing</li>
-                <li>5% Community Rewards</li>
+                <li>90% Dev Wallet</li>
+                <li>10% Liquidity Pool</li>
               </ul>
             </CardContent>
           </Card>
@@ -59,16 +460,15 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <ul className="list-disc list-inside">
-                <li>Total Supply: 1,000,000,000,000 $DOGSWAP</li>
-                <li>2% Transaction Fee (1% to holders, 1% to liquidity)</li>
-                <li>Anti-Whale Mechanism: Max wallet 2% of total supply</li>
-                <li>Liquidity Locked for 2 years</li>
+                <li>Total Supply: {totalSupply} $BONE</li>
+                <li>0% Transaction Fee</li>
+                <li>Fully Bridged Token</li>
               </ul>
             </CardContent>
           </Card>
         </div>
       </section>
-
+  
       <section id="token-info" className="w-full max-w-6xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Token Info</h2>
         <div className="grid gap-6 md:grid-cols-3">
@@ -77,8 +477,8 @@ export default function Home() {
               <CardTitle>Supply</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-4xl font-bold">1,000,000,000,000</p>
-              <p className="text-muted-foreground">Total $DOGSWAP</p>
+              <p className="text-4xl font-bold">{totalSupply}</p>
+              <p className="text-muted-foreground">Total $BONE</p>
             </CardContent>
           </Card>
           <Card>
@@ -86,8 +486,8 @@ export default function Home() {
               <CardTitle>Burned</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-4xl font-bold">50,000,000,000</p>
-              <p className="text-muted-foreground">$DOGSWAP Burned</p>
+              <p className="text-4xl font-bold">{burnedTokens}</p>
+              <p className="text-muted-foreground">$BONE Burned</p>
             </CardContent>
           </Card>
           <Card>
@@ -95,13 +495,13 @@ export default function Home() {
               <CardTitle>Liquidity</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-4xl font-bold">$5,000,000</p>
+              <p className="text-4xl font-bold">{liquidityLocked}</p>
               <p className="text-muted-foreground">Total Value Locked</p>
             </CardContent>
           </Card>
         </div>
       </section>
-
+  
       <section id="roadmap" className="w-full max-w-6xl mx-auto px-4 py-16">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Roadmap</h2>
         <div className="space-y-8">
@@ -149,18 +549,17 @@ export default function Home() {
           </Card>
         </div>
       </section>
-
+  
       <section className="w-full max-w-6xl mx-auto px-4 py-16">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8">Join the Pack!</h2>
           <Button asChild size="lg">
-            <Link href="https://app.dogswap.xyz">
-              Buy $DOGSWAP <ArrowRight className="ml-2 h-4 w-4" />
+            <Link href="https://app.uniswap.org/explore/tokens/polygon/0xd97958fb10092107c2377afa2235d7728ca4bd90">
+              Buy $BONE <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
       </section>
     </div>
-  )
+  );
 }
-

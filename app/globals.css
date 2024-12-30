@@ -52,6 +52,13 @@
 .bg-grid-pattern {
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M36 34.5c-2.5 2.5-6.5 2.5-9 0s-2.5-6.5 0-9 6.5-2.5 9 0 2.5 6.5 0 9zm-1.4-1.4c1.6-1.6 1.6-4.1 0-5.7s-4.1-1.6-5.7 0-1.6 4.1 0 5.7 4.1 1.6 5.7 0zm-12.7-24.7c-.8-.8-2.1-.8-2.8 0l-2.8 2.8c-.8.8-.8 2.1 0 2.8.8.8 2.1.8 2.8 0l2.8-2.8c.8-.7.8-2 0-2.8zm-5.7 5.7c-.8-.8-2.1-.8-2.8 0l-2.8 2.8c-.8.8-.8 2.1 0 2.8.8.8 2.1.8 2.8 0l2.8-2.8c.8-.7.8-2 0-2.8z'/%3E%3C/g%3E%3C/svg%3E");
 }
+
+.bg-image {
+  background-image: url('/images/ui/bg.jpg');
+  background-size: cover; /* Cover the entire section */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+}
  
 @layer base {
   * {

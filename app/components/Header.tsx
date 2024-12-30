@@ -9,7 +9,7 @@ export default function Header() {
       <div className="flex h-16 items-center px-4">
         <Link href="/" className="flex items-center space-x-2">
           <Image
-            src="/dogswap-logo.svg"
+            src="/images/ui/logo.png"
             alt="DogSwap Logo"
             width={32}
             height={32}
