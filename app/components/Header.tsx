@@ -59,6 +59,9 @@ export default function Header() {
               Info
             </button>
             <div className="absolute left-0 mt-0 hidden w-48 bg-white border rounded-md shadow-lg group-hover:flex flex-col">
+              <Link href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
+                About
+              </Link>
               <Link href="/#tokenomics" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
                 Tokenomics
               </Link>
