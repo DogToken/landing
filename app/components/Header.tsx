@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from './theme-toggle';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDiscord, faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 export default function Header() {
   return (
@@ -39,6 +41,12 @@ export default function Header() {
               <Link href="https://app.dogswap.xyz/bonepools" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
                 Pool
               </Link>
+              <Link href="https://mintme.com/token/dogswap" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                DogSwap
+              </Link>
+              <Link href="https://mintme.com/token/bone" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                BONE
+              </Link>
             </div>
           </div>
           <div className="relative group">
@@ -46,8 +54,11 @@ export default function Header() {
               Polygon
             </button>
             <div className="absolute left-0 mt-0 hidden w-48 bg-white border rounded-md shadow-lg group-hover:flex flex-col">
-              <Link href="https://app.uniswap.org/explore/tokens/polygon/0xd97958fb10092107c2377afa2235d7728ca4bd90" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+              <Link href="https://app.uniswap.org/#/swap?outputCurrency=0xd97958Fb10092107C2377afa2235d7728Ca4BD90" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
                 Swap
+              </Link>
+              <Link href="https://app.uniswap.org/explore/tokens/polygon/0xd97958fb10092107c2377afa2235d7728ca4bd90" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Explore
               </Link>
               <Link href="https://polygonscan.com/token/0xd97958Fb10092107C2377afa2235d7728Ca4BD90" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
                 Polygonscan
@@ -62,10 +73,10 @@ export default function Header() {
               <Link href="/about" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
                 About
               </Link>
-              <Link href="/#tokenomics" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
-                Tokenomics
+              <Link href="/whitepaper" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
+                Whitepaper
               </Link>
-              <Link href="/#roadmap" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
+              <Link href="/roadmap" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
                 Roadmap
               </Link>
               <Link href="https://docs.dogswap.xyz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
@@ -75,6 +86,12 @@ export default function Header() {
           </div>
         </nav>
         <div className="ml-auto flex items-center space-x-4">
+          <Link href="https://discord.gg/RSQZDGThfU" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faDiscord} size="2x" />
+          </Link>
+          <Link href="https://x.com/DogSwapDeFi" target="_blank" rel="noopener noreferrer">
+            <FontAwesomeIcon icon={faXTwitter} size="2x" />
+          </Link>
           <ThemeToggle />
           <Button asChild variant="default">
             <Link href="https://app.dogswap.xyz" target="_blank" rel="noopener noreferrer">

@@ -4,10 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 interface TokenInfoSectionProps {
   totalSupply: string;
   burnedTokens: string;
-  totalHolders: string; 
+  polygonLiquidity: string;
 }
 
-const TokenInfoSection: FC<TokenInfoSectionProps> = ({ totalSupply, burnedTokens, totalHolders }) => (
+const TokenInfoSection: FC<TokenInfoSectionProps> = ({ totalSupply, burnedTokens, polygonLiquidity }) => (
   <section id="token-info" className="w-full bg-gray-100 bg-cover bg-center" style={{ backgroundImage: 'url(/images/ui/polygon.jpg)' }}>
     <div className="max-w-6xl mx-auto px-4 py-16">
       <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 text-center">Polygon Info</h2>
@@ -32,11 +32,11 @@ const TokenInfoSection: FC<TokenInfoSectionProps> = ({ totalSupply, burnedTokens
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Total Holders</CardTitle>
+            <CardTitle>Uniswap Liquidity</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
-            <p className="text-4xl font-bold">{totalHolders}</p>
-            <p className="text-muted-foreground">Total Holders</p>
+            <p className="text-4xl font-bold">{polygonLiquidity}</p>
+            <p className="text-muted-foreground">$BONE in Liquidity</p>
           </CardContent>
         </Card>
       </div>
