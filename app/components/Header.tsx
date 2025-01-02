@@ -1,16 +1,33 @@
 "use client"; // This marks the component as a Client Component
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { ThemeToggle } from './theme-toggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiscord, faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faBars, faTimes, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [subMenuOpen, setSubMenuOpen] = useState<{ mintMe: boolean; polygon: boolean; info: boolean }>({
+    mintMe: false,
+    polygon: false,
+    info: false,
+  });
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const toggleSubMenu = (key: keyof typeof subMenuOpen) => {
+    setSubMenuOpen({ ...subMenuOpen, [key]: !subMenuOpen[key] });
+  };
+
   return (
-    <div className="border-b">
-      <div className="flex h-16 items-center px-4">
+    <div className="border-b bg-white">
+      <div className="flex h-16 items-center px-4 justify-between">
         <Link href="/" className="flex items-center space-x-2">
           <Image
             src="/images/ui/logo.png"
@@ -20,7 +37,12 @@ export default function Header() {
           />
           <span className="text-xl font-bold">DogSwap</span>
         </Link>
-        <nav className="flex items-center space-x-6 ml-6">
+        <div className="flex items-center space-x-4 md:hidden">
+          <button onClick={toggleMenu} className="text-2xl">
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
+          </button>
+        </div>
+        <nav className="hidden md:flex items-center space-x-6 ml-6">
           <Link href="/" className="text-sm font-medium transition-colors hover:text-primary py-2 px-3" rel="noopener noreferrer">
             Home
           </Link>
@@ -85,7 +107,7 @@ export default function Header() {
             </div>
           </div>
         </nav>
-        <div className="ml-auto flex items-center space-x-4">
+        <div className="ml-auto hidden md:flex items-center space-x-4">
           <Link href="https://discord.gg/RSQZDGThfU" target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={faDiscord} size="2x" />
           </Link>
@@ -100,14 +122,79 @@ export default function Header() {
           </Button>
         </div>
       </div>
-      <style jsx>{`
-        .group:hover .group-hover\\:flex {
-          display: flex;
-        }
-        .relative.group:hover .absolute {
-          display: flex;
-        }
-      `}</style>
+      <div className={`fixed inset-0 bg-white z-10 p-6 md:hidden transition-transform transform ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <button onClick={toggleMenu} className="absolute top-4 right-4 bg-gray-200 rounded-full p-2">
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+        <nav className="flex flex-col items-start space-y-4">
+          <Link href="/" className="text-sm font-medium transition-colors hover:text-primary py-2 px-3" rel="noopener noreferrer">
+            Home
+          </Link>
+          <Link href="/news" className="text-sm font-medium transition-colors hover:text-primary py-2 px-3" rel="noopener noreferrer">
+            News
+          </Link>
+          <div className="relative group">
+            <button className="text-sm font-medium transition-colors hover:text-primary py-2 px-3 flex justify-between items-center w-full" onClick={() => toggleSubMenu('mintMe')}>
+              MintMe
+              <FontAwesomeIcon icon={subMenuOpen.mintMe ? faChevronUp : faChevronDown} />
+            </button>
+            <div className={`${subMenuOpen.mintMe ? 'block' : 'hidden'} flex flex-col mt-2 space-y-2 pl-4 w-full`}>
+              <Link href="https://app.dogswap.xyz/swap" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Swap
+              </Link>
+              <Link href="https://app.dogswap.xyz/stake" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Stake
+              </Link>
+              <Link href="https://app.dogswap.xyz/bonepools" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Pool
+              </Link>
+              <Link href="https://mintme.com/token/dogswap" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                DogSwap
+              </Link>
+              <Link href="https://mintme.com/token/bone" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                BONE
+              </Link>
+            </div>
+          </div>
+          <div className="relative group">
+            <button className="text-sm font-medium transition-colors hover:text-primary py-2 px-3 flex justify-between items-center w-full" onClick={() => toggleSubMenu('polygon')}>
+              Polygon
+              <FontAwesomeIcon icon={subMenuOpen.polygon ? faChevronUp : faChevronDown} />
+            </button>
+            <div className={`${subMenuOpen.polygon ? 'block' : 'hidden'} flex flex-col mt-2 space-y-2 pl-4 w-full`}>
+              <Link href="https://app.uniswap.org/#/swap?outputCurrency=0xd97958Fb10092107C2377afa2235d7728Ca4BD90" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Swap
+              </Link>
+              <Link href="https://app.uniswap.org/explore/tokens/polygon/0xd97958fb10092107c2377afa2235d7728ca4bd90" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Explore
+              </Link>
+              <Link href="https://polygonscan.com/token/0xd97958Fb10092107C2377afa2235d7728Ca4BD90" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Polygonscan
+              </Link>
+            </div>
+          </div>
+          <div className="relative group">
+            <button className="text-sm font-medium transition-colors hover:text-primary py-2 px-3 flex justify-between items-center w-full" onClick={() => toggleSubMenu('info')}>
+              Info
+              <FontAwesomeIcon icon={subMenuOpen.info ? faChevronUp : faChevronDown} />
+            </button>
+            <div className={`${subMenuOpen.info ? 'block' : 'hidden'} flex flex-col mt-2 space-y-2 pl-4 w-full`}>
+              <Link href="/about" className="text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
+                About
+              </Link>
+              <Link href="/whitepaper" className="text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
+                Whitepaper
+              </Link>
+              <Link href="/roadmap" className="text-sm text-gray-700 hover:bg-gray-100" rel="noopener noreferrer">
+                Roadmap
+              </Link>
+              <Link href="https://docs.dogswap.xyz" className="text-sm text-gray-700 hover:bg-gray-100" target="_blank" rel="noopener noreferrer">
+                Docs
+              </Link>
+            </div>
+          </div>
+        </nav>
+      </div>
     </div>
   );
 }
