@@ -32,7 +32,7 @@ interface CoreValuesSectionProps {
 
 interface AchievementsSectionProps {
   title: string;
-  banners: string[];
+  banners: { image: string; description: string }[];
 }
 
 interface SupportersSectionProps {
@@ -86,13 +86,8 @@ const aboutSections = [
     title: 'Achievements',
     content: [],
     banners: [
-      '/images/achievements/launch.jpg',
-      '/images/achievements/community.jpg',
-      '/images/achievements/partnership.jpg',
-      '/images/achievements/community.jpg',
-      '/images/achievements/partnership.jpg',
-      '/images/achievements/community.jpg',
-      '/images/achievements/partnership.jpg'
+      { image: '/images/achievements/1000x.png', description: '1000x Coding Contest' },
+      { image: '/images/achievements/1000x.png', description: '1000x Coding Contest' },
     ]
   },
   {
@@ -226,11 +221,21 @@ function AchievementsSection({ title, banners }: AchievementsSectionProps) {
   return (
     <section className="mb-16 text-center">
       <h2 className="text-4xl font-bold mb-8">{title}</h2>
-      <div className="flex space-x-4 overflow-x-auto p-4 scrollbar-hide">
+      <div className="flex flex-wrap justify-center space-x-4 overflow-x-auto p-4">
         {banners.map((banner, idx) => (
-          <img key={idx} src={banner} alt={`Achievement ${idx + 1}`} className="w-64 h-40 object-cover rounded-lg shadow-md" />
+          <div key={idx} className="flex-shrink-0 text-center">
+            <img 
+              src={banner.image} 
+              alt={`Achievement ${idx + 1}`} 
+              className="w-40 h-auto object-cover rounded-lg shadow-md mx-auto" 
+            />
+            <p className="mt-4 text-lg mx-auto max-w-xs">{banner.description}</p>
+          </div>
         ))}
       </div>
+      <p className="mt-8 text-lg">
+        We are proud of our achievements and milestones. Each banner represents a significant accomplishment in our journey. Thank you for being a part of our community and supporting us.
+      </p>
     </section>
   );
 }
