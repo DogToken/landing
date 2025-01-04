@@ -62,7 +62,7 @@ const aboutSections = [
     title: 'Our Team',
     content: [],
     team: [
-      { name: 'Doggo', role: 'Founder', image: '/images/coins/doggo.png', linkedin: 'https://linkedin.com/in/alice', twitter: 'https://twitter.com/DogSwapDeFi', facebook: 'https://www.facebook.com/DogSwapDeFi' },
+      { name: 'Doggo', role: 'Founder', image: '/images/coins/doggo.png', linkedin: 'https://linkedin.com/in/doggo', twitter: 'https://twitter.com/DogSwapDeFi', facebook: 'https://www.facebook.com/DogSwapDeFi' },
     ]
   },
   {
